@@ -7,6 +7,7 @@ export default function Nav({ onSearch, link }) {
         <div>
             <Link className={link} to='/home'>Home</Link>
             <Link className={link} to='/about'>About</Link>
+            <Link className={link} to='/favorites'>Favoritos</Link>
             <SearchBar onSearch={onSearch} />
         </div>
     );

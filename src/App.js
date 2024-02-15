@@ -8,6 +8,7 @@ import Nav from './components/Nav.jsx';
 import About from './components/About.jsx';
 import Detail from './components/Detail.jsx';
 import Form from './components/Form.jsx';
+import Favorites from './components/Favorites.jsx';
 
 
 
@@ -75,6 +76,11 @@ function App() {
             {/*DETAIL*/}
             <Route path='/detail/:id' element={
                <Detail />
+            }/>
+
+            {/*FAVORITES*/}
+            <Route path='/favorites' element={
+               <Favorites />
             }/>
          </Routes>
          
