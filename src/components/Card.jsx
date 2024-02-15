@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { addFav, removeFav } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const CardContainer = styled.div`
 width: 250px;
@@ -62,11 +64,32 @@ margin-top: 12px;
 export default function Card({ id, name, status, species, gender, origin, image, onClose }) {
    const [isFav, setIsFav] = useState(false);
 
+   const dispatch = useDispatch();
+   const myFavorites = useSelector((state)=>state.myFavorites);
+
+   const myChar = {
+      name: name,
+      gender: gender,
+      species: species,
+      id: id,
+      image: image,
+   }
+
+   useEffect(() => {
+      myFavorites.forEach((fav) => {
+         if (fav.id === id) {
+            setIsFav(true);
+         }
+      });
+   }, [myFavorites]);
+
    const handleFavorite = () => {
       if (isFav) {
          setIsFav(false);
+         dispatch(removeFav(id)) //mandar id de personaje como argumento
       } else {
-         setIsFav(true)
+         setIsFav(true);
+         dispatch(addFav(myChar)) //mandar personaje como arg
       }
    }
    return (
