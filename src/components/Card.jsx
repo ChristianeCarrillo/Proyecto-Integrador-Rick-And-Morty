@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -58,17 +59,34 @@ margin-top: 12px;
 
 
 //de igual forma se puede deconstruir el argumento exportado en lugar de poner props, ejemplo:
-export default function Card({id, name, status, species, gender, origin, image, onClose}) {
+export default function Card({ id, name, status, species, gender, origin, image, onClose }) {
+   const [isFav, setIsFav] = useState(false);
+
+   const handleFavorite = () => {
+      if (isFav) {
+         setIsFav(false);
+      } else {
+         setIsFav(true)
+      }
+   }
    return (
       <CardContainer>
          <CloseButton onClick={() => (onClose(id))}>X</CloseButton>
+         {/* BTN DE FAV */}
+         {
+            isFav ? (
+               <button onClick={handleFavorite}>❤️</button>
+            ) : (
+               <button onClick={handleFavorite}>🤍</button>
+            )
+         }
          <Link to={`/detail/${id}`}>
-         <CardHeading>{name}</CardHeading>
+            <CardHeading>{name}</CardHeading>
          </Link>
          <CardText>{status}</CardText>
          <CardText>{species}</CardText>
          <CardText>{gender}</CardText>
-         <CardText>{origin.name}</CardText>  
+         <CardText>{origin.name}</CardText>
          <CardImage src={image} alt='' />
       </CardContainer>
    );
