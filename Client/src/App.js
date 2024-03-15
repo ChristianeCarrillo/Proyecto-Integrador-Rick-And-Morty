@@ -23,25 +23,23 @@ function App() {
 
    //character = [] //memoria1
 
-   function login(userData) {
-      if (userData.password === PASSWORD && userData.email === EMAIL) {
-         setAccess(true);
-         navigate('/home');
-      }
-   }
-
    useEffect(() => {
       !access && navigate('/');
-   }, [access]);
+      access && navigate('/home');
+   }, [access])
 
-   const onClose = (id) => {
-      //crea un nuevo arreglo sin el personaje
-      const filteredState = characters.filter((char) => char.id !== id);
-      setCharacters(filteredState)
-   };
+   function login(userData) {
+      const { username:email, password } = userData;
+      // console.log('user info', email, password);
+      const URL = 'http://localhost:3001/rickandmorty/login/';
+      axios(URL + `?email=${email}&password=${password}`).then(({ data }) => {
+         setAccess(data.access);
+      });
+   }
 
    const onSearch = (id) => {
-      axios(`https://rickandmortyapi.com/api/character/${id}`).then(
+      //axios(`https://rickandmortyapi.com/api/character/${id}`).then(
+      axios(`http://localhost:3001/rickandmorty/character/${id}`).then(
          (response) => {
             if (response.data.name) {
                setCharacters((oldChars) => [...oldChars, response.data]);
